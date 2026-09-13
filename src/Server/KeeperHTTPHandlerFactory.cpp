@@ -51,7 +51,8 @@ std::unique_ptr<HTTPRequestHandler> KeeperHTTPRequestHandlerFactory::createReque
     }
 
     if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET || request.getMethod() == Poco::Net::HTTPRequest::HTTP_HEAD
-        || request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
+        || request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST
+        || request.getMethod() == Poco::Net::HTTPRequest::HTTP_QUERY)
     {
         return std::make_unique<KeeperNotFoundHandler>(hints.getHints(request.getURI()));
     }

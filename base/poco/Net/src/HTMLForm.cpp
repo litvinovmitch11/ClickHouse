@@ -146,7 +146,7 @@ void HTMLForm::load(const HTTPRequest& request, std::istream& requestBody, PartH
 		readUrl(istr);
 	}
 
-	if (request.getMethod() == HTTPRequest::HTTP_POST || request.getMethod() == HTTPRequest::HTTP_PUT)
+	if (request.getMethod() == HTTPRequest::HTTP_POST || request.getMethod() == HTTPRequest::HTTP_PUT || request.getMethod() == HTTPRequest::HTTP_QUERY)
 	{
 		std::string mediaType;
 		NameValueCollection params;
@@ -204,7 +204,7 @@ void HTMLForm::read(const std::string& queryString)
 
 void HTMLForm::prepareSubmit(HTTPRequest& request, int options)
 {
-	if (request.getMethod() == HTTPRequest::HTTP_POST || request.getMethod() == HTTPRequest::HTTP_PUT)
+	if (request.getMethod() == HTTPRequest::HTTP_POST || request.getMethod() == HTTPRequest::HTTP_PUT || request.getMethod() == HTTPRequest::HTTP_QUERY)
 	{
 		if (_encoding == ENCODING_URL)
 		{

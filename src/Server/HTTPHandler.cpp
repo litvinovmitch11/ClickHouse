@@ -1572,10 +1572,10 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
         /// misread as the next request on the connection (pinned by 04826_handler_lengthless_body_keep_alive).
         const auto & method = request.getMethod();
         const bool is_body_carrying_method
-            = method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_PUT || method == HTTPRequest::HTTP_DELETE;
+            = method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_PUT || method == HTTPRequest::HTTP_DELETE || method == HTTPRequest::HTTP_QUERY;
         const bool body_may_be_consumed = body_contract_known
             ? (consumes_request_body || requestDeclaresFormBody(request))
-            : (method == HTTPRequest::HTTP_POST || requestDeclaresFormBody(request));
+            : (method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_QUERY || requestDeclaresFormBody(request));
         const bool method_requires_content_length = is_body_carrying_method && body_may_be_consumed;
         if (method_requires_content_length && !request.getChunkedTransferEncoding() && !request.hasContentLength())
         {

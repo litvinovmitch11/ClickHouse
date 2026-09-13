@@ -64,8 +64,8 @@ Ok.
 
 To query over HTTP/HTTPS there are three options:
 - send the request as a URL 'query' parameter
-- using the POST method.
-- Send the beginning of the query in the 'query' parameter, and the rest using POST
+- using the POST or QUERY method.
+- Send the beginning of the query in the 'query' parameter, and the rest using POST or QUERY
 
 <Note>
 The size of the URL is limited to 1 MiB by default, this can be changed with the `http_max_uri_size` setting.
@@ -74,7 +74,7 @@ The size of the URL is limited to 1 MiB by default, this can be changed with the
 If successful, you receive the 200 response code and the result in the response body.
 If an error occurs, you receive the 500 response code and an error description text in the response body.
 
-Requests using GET are 'readonly'. This means that for queries that modify data, you can only use the POST method. 
+Requests using GET and QUERY are 'readonly'. This means that for queries that modify data, you can only use the POST method. 
 You can send the query itself either in the POST body or in the URL parameter. Let's look at some examples.
 
 In the example below curl is used to send the query `SELECT 1`. Note the use of URL encoding for the space: `%20`.

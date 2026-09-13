@@ -1,0 +1,15 @@
+--- 1. simple SELECT via QUERY ---
+OK: select 1
+--- 2. query in URL parameter ---
+OK: url param
+--- 3. INSERT via QUERY must fail (readonly) ---
+OK: readonly enforced
+--- 4. QUERY result equals POST result ---
+OK: post vs query
+--- 5. chunked QUERY ---
+OK: chunked
+--- 8. QUERY with X-ClickHouse-Format ---
+OK: headers applied
+--- 9. QUERY with SQL error ---
+OK: error propagated
+All QUERY method tests completed.

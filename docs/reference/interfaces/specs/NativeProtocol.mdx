@@ -566,6 +566,7 @@ Client → Server, embedded in the Query body (field 2). Gated by `CLIENT_INFO` 
 Fields 7–12 above are the **TCP** branch. When `query_interface` (field 6) is **not** TCP, these fields are *replaced* by a different wire layout — they are not merely optional omissions, so a decoder must branch on field 6.
 
 - `query_interface = 2` (**HTTP**): the server-forwarded HTTP request info is written instead — `http_method` (`UInt8`), `http_user_agent` (`String`), then `forwarded_for` (`String`, gated by `X_FORWARDED_FOR_IN_CLIENT_INFO` v54443), `http_referer` (`String`, gated by `REFERER_IN_CLIENT_INFO` v54447), and finally `http_handler_name` (`String`) and `http_request_url` (`String`) (both gated by `HTTP_HANDLER_IN_CLIENT_INFO` v54490, in that order). No `os_user`/`client_hostname`/`client_name`/`version_*`/`protocol_version` fields are present. The last two carry the matched SQL-defined HTTP handler name and request URL so they survive to remote shards (empty for a non-handler HTTP query).
+- TODO QUERY
 - Any other interface: none of the TCP fields (7–12) and none of the HTTP fields are written; the stream continues directly with `quota_key`.
 
 After this branch the layout rejoins: `quota_key` (field 13) and `distributed_depth` (field 14) follow for all interfaces, then `version_patch` (field 15) is written only for TCP.

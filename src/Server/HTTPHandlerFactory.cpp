@@ -636,13 +636,14 @@ void addDefaultHandlersFactory(
             bool is_get_or_head_request = request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET
                             || request.getMethod() == Poco::Net::HTTPRequest::HTTP_HEAD;
 
-            bool path_matches_post_or_options = path_matches_get_or_head
+            bool path_matches_post_or_options_or_query = path_matches_get_or_head
                              || request.getURI() == "/"
                              || request.getURI().empty();
-            bool is_post_or_options_request = request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST
-                                    || request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS;
+            bool is_post_or_options_or_query_request = request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST
+                                    || request.getMethod() == Poco::Net::HTTPRequest::HTTP_OPTIONS
+                                    || request.getMethod() == Poco::Net::HTTPRequest::HTTP_QUERY;
 
-            return (path_matches_get_or_head && is_get_or_head_request) || (path_matches_post_or_options && is_post_or_options_request);
+            return (path_matches_get_or_head && is_get_or_head_request) || (path_matches_post_or_options_or_query && is_post_or_options_or_query_request);
         }
     );
     factory.addHandler(query_handler);
@@ -682,7 +683,7 @@ void addCatchAllQueryHandlerFactory(
                                || method == Poco::Net::HTTPRequest::HTTP_HEAD;
             bool is_post_or_options = method == Poco::Net::HTTPRequest::HTTP_POST
                                    || method == Poco::Net::HTTPRequest::HTTP_OPTIONS;
-
+// QUERYYYYYY LOLO
             /// An `OPTIONS` request is a CORS preflight (and the web-UI connectivity health-check).
             /// `HTTPHandler::handleRequest` answers it via `processOptionsRequest` before
             /// authentication and without running a query, so it is claimed here for any path —

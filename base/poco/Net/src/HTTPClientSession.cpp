@@ -313,7 +313,7 @@ std::ostream& HTTPClientSession::sendRequest(HTTPRequest& request, uint64_t * co
 			_pRequestStream = new HTTPFixedLengthOutputStream(*this, request.getContentLength64() + cs.chars());
 			request.write(*_pRequestStream);
 		}
-		else if ((method != HTTPRequest::HTTP_PUT && method != HTTPRequest::HTTP_POST && method != HTTPRequest::HTTP_PATCH) || request.has(HTTPRequest::UPGRADE))
+		else if ((method != HTTPRequest::HTTP_PUT && method != HTTPRequest::HTTP_POST && method != HTTPRequest::HTTP_PATCH && method != HTTPRequest::HTTP_QUERY) || request.has(HTTPRequest::UPGRADE))
 		{
 			Poco::CountingOutputStream cs;
 			request.write(cs);
