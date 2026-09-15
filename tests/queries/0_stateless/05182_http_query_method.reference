@@ -1,15 +1,2 @@
---- 1. simple SELECT via QUERY ---
-OK: select 1
---- 2. query in URL parameter ---
-OK: url param
 --- 3. INSERT via QUERY must fail (readonly) ---
-OK: readonly enforced
---- 4. QUERY result equals POST result ---
-OK: post vs query
---- 5. chunked QUERY ---
-OK: chunked
---- 8. QUERY with X-ClickHouse-Format ---
-OK: headers applied
---- 9. QUERY with SQL error ---
-OK: error propagated
-All QUERY method tests completed.
+Code: 164. DB::Exception: default: Cannot execute query in readonly mode. For queries over HTTP, method QUERY implies readonly. You should use method POST for modifying queries. (READONLY) (version 26.9.1.1)

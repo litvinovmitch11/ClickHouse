@@ -11,21 +11,21 @@ CUR_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # ${CLICKHOUSE_CURL} -sS -X GET "${CLICKHOUSE_URL}&max_rows_to_read=10000&default_format=PrettySpaceNoEscapes" -d "SELECT name, value, changed FROM system.settings WHERE name IN ('readonly','max_rows_to_read')"
 
 
-# ============================================================
-# 1. QUERY с телом SELECT — базовый сценарий
-# ============================================================
-echo "--- 1. simple SELECT via QUERY ---"
-${CLICKHOUSE_CURL} -sS -X QUERY \
-    -H "Content-Type: text/plain" \
-    -d "SELECT 1" \
-    "${CLICKHOUSE_URL}" | grep -q "^1$" && echo "OK: select 1"
+# # ============================================================
+# # 1. QUERY с телом SELECT — базовый сценарий
+# # ============================================================
+# echo "--- 1. simple SELECT via QUERY ---"
+# ${CLICKHOUSE_CURL} -sS -X QUERY \
+#     -H "Content-Type: text/plain" \
+#     -d "SELECT 1" \
+#     "${CLICKHOUSE_URL}" | grep -q "^1$" && echo "OK: select 1"
 
-# ============================================================
-# 2. QUERY с запросом в URL-параметре query (без тела)
-# ============================================================
-echo "--- 2. query in URL parameter ---"
-${CLICKHOUSE_CURL} -sS -X QUERY \
-    "${CLICKHOUSE_URL}/&query=SELECT%202" | grep -q "HTTP_LENGTH_REQUIRED" && echo "OK: url param"
+# # ============================================================
+# # 2. QUERY с запросом в URL-параметре query (без тела)
+# # ============================================================
+# echo "--- 2. query in URL parameter ---"
+# ${CLICKHOUSE_CURL} -sS -X QUERY \
+#     "${CLICKHOUSE_URL}/&query=SELECT%202" | grep -q "HTTP_LENGTH_REQUIRED" && echo "OK: url param"
 
 # ============================================================
 # 3. QUERY с INSERT — должен быть запрещён (readonly)

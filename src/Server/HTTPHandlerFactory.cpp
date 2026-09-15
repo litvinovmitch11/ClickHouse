@@ -682,8 +682,8 @@ void addCatchAllQueryHandlerFactory(
             bool is_get_or_head = method == Poco::Net::HTTPRequest::HTTP_GET
                                || method == Poco::Net::HTTPRequest::HTTP_HEAD;
             bool is_post_or_options = method == Poco::Net::HTTPRequest::HTTP_POST
-                                   || method == Poco::Net::HTTPRequest::HTTP_OPTIONS;
-// QUERYYYYYY LOLO
+                                   || method == Poco::Net::HTTPRequest::HTTP_OPTIONS
+                                   || method == Poco::Net::HTTPRequest::HTTP_QUERY;
             /// An `OPTIONS` request is a CORS preflight (and the web-UI connectivity health-check).
             /// `HTTPHandler::handleRequest` answers it via `processOptionsRequest` before
             /// authentication and without running a query, so it is claimed here for any path —

@@ -1823,7 +1823,7 @@ std::string PredefinedQueryHandler::getQuery(HTTPServerRequest & request, HTMLFo
             receive_params.begin(), receive_params.end(), [](const String & name) { return name != "_request_body"; });
         const auto & method = request.getMethod();
         const bool body_carrying_method
-            = method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_PUT || method == HTTPRequest::HTTP_DELETE;
+            = method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_PUT || method == HTTPRequest::HTTP_DELETE || method == HTTPRequest::HTTP_QUERY;
         if (wants_form_body_params && body_carrying_method)
         {
             if (wants_request_body)

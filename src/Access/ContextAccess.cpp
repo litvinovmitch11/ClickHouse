@@ -12,6 +12,7 @@
 #include <Databases/DatabaseFactory.h>
 #include <Storages/StorageFactory.h>
 #include <Interpreters/DatabaseCatalog.h>
+#include <Interpreters/ClientInfo.h>
 #include <Interpreters/Context.h>
 #include <Common/Exception.h>
 #include <Common/quoteString.h>
@@ -857,12 +858,12 @@ bool ContextAccess::checkAccessImplHelper(const ContextPtr & context, AccessFlag
         if ((flags & precalc.not_readonly_flags) ||
             ((params.readonly == 1) && (flags & precalc.not_readonly_1_flags)))
         {
-            if (params.interface == ClientInfo::Interface::HTTP && params.http_method == ClientInfo::HTTPMethod::GET)
+            if (params.interface == ClientInfo::Interface::HTTP && (params.http_method == ClientInfo::HTTPMethod::GET || params.http_method == ClientInfo::HTTPMethod::QUERY))
             {
                 return access_denied(ErrorCodes::READONLY,
                     "{}: Cannot execute query in readonly mode. "
-                    "For queries over HTTP, method GET implies readonly. "
-                    "You should use method POST for modifying queries");
+                    "For queries over HTTP, method {} implies readonly. "
+                    "You should use method POST for modifying queries", toString(params.http_method));
             }
             return access_denied(ErrorCodes::READONLY, "{}: Cannot execute query in readonly mode");
         }

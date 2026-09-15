@@ -26,7 +26,7 @@ bool parseMethods(IParser::Pos & pos, Expected & expected, std::vector<String> &
     if (!ParserToken(TokenType::OpeningRoundBracket).ignore(pos, expected))
         return false;
 
-    static const std::unordered_set<String> allowed_methods = {"GET", "POST", "PUT", "DELETE"};
+    static const std::unordered_set<String> allowed_methods = {"GET", "POST", "PUT", "DELETE", "QUERY"};
 
     while (true)
     {

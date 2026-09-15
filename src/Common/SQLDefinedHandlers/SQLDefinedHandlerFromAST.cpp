@@ -391,6 +391,12 @@ bool isMutatingHTTPMethod(const String & method)
     return method == "POST" || method == "PUT" || method == "DELETE";
 }
 
+/// The HTTP methods that are allowed to have body (see `setReadOnlyIfHTTPMethodIdempotent`).
+bool isBodyCarryingHTTPMethod(const String & method)
+{
+    return method == "POST" || method == "PUT" || method == "DELETE" || method == "QUERY";
+}
+
 }
 
 SQLDefinedHandlerPtr makeSQLDefinedHandler(const ASTCreateHandlerQuery & create)
@@ -524,6 +530,7 @@ SQLDefinedHandlerPtr makeSQLDefinedHandler(const ASTCreateHandlerQuery & create)
     handler->consumes_request_body = queryConsumesRequestBody(*create.query)
         || handler->receive_params.contains("_request_body");
 
+    /// FIXME COMMENT
     /// A handler whose query reads the HTTP request body can never receive one over a safe method:
     /// the HTTP layer gives a non-chunked `GET` an empty body stream (see `HTTPServerRequest`), so the
     /// query would silently bind an empty body instead of ever reading or rejecting the request. And a
@@ -532,7 +539,7 @@ SQLDefinedHandlerPtr makeSQLDefinedHandler(const ASTCreateHandlerQuery & create)
     /// methods are exactly the mutating ones (`POST`, `PUT`, `DELETE`), so require *every* allowed
     /// method to be one of them, and reject the handler with a clear error otherwise.
     if (handler->consumes_request_body
-        && !std::all_of(handler->methods.begin(), handler->methods.end(), isMutatingHTTPMethod))
+        && !std::all_of(handler->methods.begin(), handler->methods.end(), isBodyCarryingHTTPMethod))
     {
         throw Exception(ErrorCodes::BAD_ARGUMENTS,
             "Handler `{}` reads the HTTP request body (an INSERT query taking its data from the body, "
