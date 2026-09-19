@@ -1,2 +1,18 @@
---- 3. INSERT via QUERY must fail (readonly) ---
-Code: 164. DB::Exception: default: Cannot execute query in readonly mode. For queries over HTTP, method QUERY implies readonly. You should use method POST for modifying queries. (READONLY) (version 26.9.1.1)
+application/sql status: OK
+application/sql body: OK
+media type parameters: OK
+URI query component: OK
+missing Content-Type: OK
+invalid SQL content: OK
+missing body framing: OK
+chunked request content: OK
+safe method rejects mutation: OK
+safe method leaves no table: OK
+idempotent repeated result: OK
+response format header: OK
+SQL error propagation: OK
+CORS preflight advertises QUERY: OK
+SQL handler routing: OK
+SQL handler raw body: OK
+SQL handler URL-encoded body: OK
+SQL handler multipart body: OK

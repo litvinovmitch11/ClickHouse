@@ -1544,6 +1544,13 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
         if (request.getVersion() == HTTPServerRequest::HTTP_1_1)
             response.setChunkedTransferEncoding(true);
 
+        const auto & method = request.getMethod();
+        if (method == HTTPRequest::HTTP_QUERY && !request.has(Poco::Net::HTTPMessage::CONTENT_TYPE))
+        {
+            throw Exception(ErrorCodes::BAD_ARGUMENTS,
+                            "The Content-Type header is required for a QUERY request");
+        }
+
         HTMLForm params(default_settings, request);
 
         if (params.getParsed<bool>("stacktrace", false) && server.config().getBool("enable_http_stacktrace", true))
@@ -1570,7 +1577,6 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
         /// returns false, `HTTPServerResponse::writeHeaders` advertises `Connection: close`, and
         /// `HTTPServerConnection` closes the socket after the response - the unread bytes can never be
         /// misread as the next request on the connection (pinned by 04826_handler_lengthless_body_keep_alive).
-        const auto & method = request.getMethod();
         const bool is_body_carrying_method
             = method == HTTPRequest::HTTP_POST || method == HTTPRequest::HTTP_PUT || method == HTTPRequest::HTTP_DELETE || method == HTTPRequest::HTTP_QUERY;
         const bool body_may_be_consumed = body_contract_known

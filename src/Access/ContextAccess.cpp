@@ -737,7 +737,7 @@ bool ContextAccess::checkAccessImplHelper(const ContextPtr & context, AccessFlag
         /// and other grants are considered as always given.
         /// The DatabaseCatalog class won't resolve StorageID for temporary tables
         /// which shouldn't be accessed.
-        if (getDatabase(args...) == DatabaseCatalog::TEMPORARY_DATABASE)
+        if (getDatabase(args...) == DatabaseCatalog::TEMPORARY_DATABASE && params.http_method != ClientInfo::HTTPMethod::QUERY)
             return access_granted();
     }
 
